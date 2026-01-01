@@ -1,0 +1,25 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install
+        run: |
+          pip install -e .
+          pip install pytest behave behave-django flake8
+
+      - name: Lint
+        run: flake8 bdd_helpers
+
+      - name: Test
+        run: pytest
